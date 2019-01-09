@@ -19,6 +19,8 @@
             Juegos: Modalidades,
             ResultadoCorrecto: resultadoCorrectoPregunta,
             ResultadoIncorrecto: resultadoIncorrectoPregunta,
+
+
         },
         {
             initialRouteName: 'Recetas',
