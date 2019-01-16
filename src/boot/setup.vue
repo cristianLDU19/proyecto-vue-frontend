@@ -1,4 +1,4 @@
-<template>
+npm start <template>
   <view class="container">
     <app-loading v-if="!isAppReady"> </app-loading>
     <app v-if="isAppReady"></app>

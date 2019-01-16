@@ -73,7 +73,7 @@
                         :onPress="toggleRadio4"
                 >
                     <nb-left>
-                        <nb-text></nb-text>
+                        <nb-text>{{pregunta.opcion4}}</nb-text>
                     </nb-left>
                     <nb-right>
                         <nb-radio
@@ -110,13 +110,13 @@
                 type: Object
             }
         },
+
         mounted() {
             this.getPregunta();
         },
         data: function() {
             return {
-               pregunta : [],
-              // pregunta : {"id":1,"descripcion":"¿cuanto es 2 + 2 ?","opcion1":"3","opcion2":"4","opcion3":"5","opcion4":"6","correcta":"4","puntaje":10,"foto":"https://firebasestorage.googleapis.com/v0/b/sistemacalificaciones-78da3.appspot.com/o/hamburguesa.jpg?alt=media&token=c7411209-51b7-4bcb-b7e3-8bf5f4cb8173","slug":"pregunta/corregir/1/"},
+               pregunta : {},
                 radio1: false,
                 radio2: false,
                 radio3: false,
@@ -139,22 +139,13 @@
 
         methods:
             {
-                /*
-                https://proyectobackend.herokuapp.com/api/pregunta
-                getRecetas: function() {
-                    var urlRecetas = 'http://127.0.0.1:8000/recetas';
-                    axios.get(urlRecetas).then(response => {this.rece = response.data});
-                },*/
 
                 getPregunta: function() {
                     var urlPregunta = 'https://proyectobackend.herokuapp.com/api/pregunta';
-                    //axios.get(urlPregunta).then(response => {this.pregunta = response.data});
+                    var th = this;
                     axios.get(urlPregunta)
                         .then(function (response) {
-                            this.pregunta =response.data[0];
-                           // console.log(response.data);
-                            console.log("PREGUNTA")
-                            console.log(this.pregunta );
+                            th.pregunta =response.data[0];
                         })
                         .catch(function (error) {
                             console.log(error);

@@ -24,7 +24,7 @@
                 </nb-button>
             </nb-segment>
             <nb-right >
-                <nb-button class="cabezera-derecha">
+                <nb-button class="cabezera-derecha" >
                     <nb-thumbnail small :source="logotipo" />
                 </nb-button>
             </nb-right>
@@ -38,7 +38,11 @@
                                 <nb-text>{{receta.nombre}}</nb-text>
                             </nb-card-item>
 
-                            <nb-card-item cardBody button :onPress="handleBodyClick">
+                            <nb-card-item cardBody button :onPress="() => {
+                            this.props.navigation.navigate('DetalleRecetas', {
+                              nombreReceta: receta.slug,
+                            });
+                            }">
                                 <image :source="{uri: receta.foto}" class="card-item-image" />
                             </nb-card-item>
                         </nb-card>
@@ -51,7 +55,9 @@
                         <nb-text>CARRERAS DEL CHEF</nb-text>
                     </nb-card-item>
 
-                    <nb-card-item cardBody button :onPress="handleBodyClick">
+                    <nb-card-item cardBody button :onPress="() => {
+                            this.props.navigation.navigate('seleccionReceta');
+                            }" >
                         <image :source="{uri: 'https://firebasestorage.googleapis.com/v0/b/sistemacalificaciones-78da3.appspot.com/o/carreraChefs.png?alt=media&token=8e54e8a8-82b1-450a-872e-618e2c179f17'}" class="card-item-image" />
                     </nb-card-item>
                 </nb-card>
@@ -60,7 +66,7 @@
                         <nb-text>TRIVIA DE COMMIDA</nb-text>
                     </nb-card-item>
 
-                    <nb-card-item cardBody button :onPress="() => this.props.navigation.navigate('Recetas')">
+                    <nb-card-item cardBody button :onPress="() => this.props.navigation.navigate('Juegos')">
                         <image :source="{uri: 'https://firebasestorage.googleapis.com/v0/b/sistemacalificaciones-78da3.appspot.com/o/trivia.png?alt=media&token=f22c70e1-2125-48a5-bb90-4a71f2579124'}" class="card-item-image" />
                     </nb-card-item>
                 </nb-card>
@@ -75,6 +81,7 @@
     import RecetasCard from "./recetas-card";
     import logo from "../../assets/usuario.png"
     import ModalidadesCard from "./modalidades-card";
+
     export default {
         components: {ModalidadesCard, RecetasCard},
         props: {
@@ -86,20 +93,29 @@
             return {
                 logotipo: logo,
                 seg: 1,
-                rece : [{"id":1,"nombre":"Hamburguesaaaa","foto":"https://firebasestorage.googleapis.com/v0/b/sistemacalificaciones-78da3.appspot.com/o/hamburguesa.jpg?alt=media&token=c7411209-51b7-4bcb-b7e3-8bf5f4cb8173","modalidad":"comidas casuales","costo":4,"slug":"hamburguesa"},
-                    {"id":2,"nombre":"Pie de Limon","foto":"https:\/\/firebasestorage.googleapis.com\/v0\/b\/sistemacalificaciones-78da3.appspot.com\/o\/i6576-mousse-maracuya.jpg?alt=media&token=cb94955a-bf4d-437d-9242-950a4309c9c1","modalidad":"comidas casuales","costo":8,"slug":"pie_de_limon"},
-                    {"id":3,"nombre":"PIZZA","foto":"https://firebasestorage.googleapis.com/v0/b/sistemacalificaciones-78da3.appspot.com/o/hamburguesa.jpg?alt=media&token=c7411209-51b7-4bcb-b7e3-8bf5f4cb8173","modalidad":"comidas casuales","costo":4,"slug":"hamburguesa"},
-                    {"id":4,"nombre":"LASAGGNA","foto":"https:\/\/firebasestorage.googleapis.com\/v0\/b\/sistemacalificaciones-78da3.appspot.com\/o\/i6576-mousse-maracuya.jpg?alt=media&token=cb94955a-bf4d-437d-9242-950a4309c9c1","modalidad":"comidas casuales","costo":8,"slug":"pie_de_limon"}
-                ]
+                rece :[],
+
             };
         },
 
+        mounted()
+            {
+                this.getRecetas();
+            },
+
         methods:
             {
-                /*getRecetas: function() {
-                    var urlRecetas = 'http://127.0.0.1:8000/recetas';
-                    axios.get(urlRecetas).then(response => {this.rece = response.data});
-                },*/
+                getRecetas: function() {
+                    var url = 'https://proyectobackend.herokuapp.com/api/receta/';
+                    var th = this;
+                    axios.get(url)
+                        .then(function (response) {
+                            th.rece =response.data;
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
                 handleBodyClick: function() {
                     this.navigation.navigate("Juegos");
                 },
@@ -123,6 +139,7 @@
 <style>
     .cabezera-derecha {
         background-color: orange;
+        border-bottom-left-radius: 25;
     }
     .card-item-image {
         flex: 1;
@@ -136,5 +153,6 @@
     .margen {
         margin: 30;
     }
+
 
 </style>

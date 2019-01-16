@@ -1,29 +1,19 @@
 <template>
-    <!-- <nb-container :style="{ backgroundColor: '#fff'}">
-        <nb-content>
-            <nb-list>
-                <nb-list-item>
-                    <nb-text>Simon Mignolet</nb-text>
-                </nb-list-item>
-            </nb-list>
-        </nb-content>
-    </nb-container>-->
-   <nb-container :style="{ backgroundColor: '#FFA500'}">
+    <nb-container :style="{ backgroundColor: '#FFA500'}">
     <view :style="{ flex:1,justifyContent: 'center',alignItems: 'center'}">
-        <text class="titulo">¡¡¡ERROR!!!</text>
-        <text class="mensaje1">LO SIENTO</text>
-        <text class="mensaje2">¡PERDISTE!</text>
+        <text class="titulo">{{reto.descripcion}}</text>
 
         <image :source="{uri: 'https://firebasestorage.googleapis.com/v0/b/sistemacalificaciones-78da3.appspot.com/o/retoDos.PNG?alt=media&token=f4f33941-f807-46ab-a903-c02e18bf2ed8'}" class="card-item-image" />
 
-        <nb-button rounded class="boton" :onPress="irPreguntas">
-            <nb-text>SIGUIENTE</nb-text>
+        <nb-button rounded class="boton" :onPress="irCarrera">
+            <nb-text>OK</nb-text>
         </nb-button>
     </view>
     </nb-container>
 </template>
 
 <script>
+    import axios from 'axios';
 
     export default {
         props: {
@@ -33,35 +23,37 @@
         },
         data(){
             return {
-
+                orden: this.navigation.getParam('orden', 1),
+                RecetaSlug: this.navigation.getParam('nombreReceta', 'SIN RECETA'),
+                reto: {}
             }
         },
-
-        methods: {
-            irPreguntas: function()
-            {
-                this.navigation.navigate("Juegos");
-            }
-
-        }
-    }
-
-   /* export default {
-        props: {
-            navigation: {
-                type: Object
-            }
+        mounted()
+        {
+            this.getReto();
         },
         name: "resultado-preguntas",
         methods:
         {
-            irPreguntas: function()
+            getReto: function() {
+                var url = 'https://proyectobackend.herokuapp.com/api/reto/aleatorio';
+                var th = this;
+                axios.get(url)
+                    .then(function (response) {
+                        th.reto = response.data[0];
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            irCarrera: function()
             {
-                this.navigation.navigate("Juegos");
+                this.navigation.navigate("CarreraChef",{orden: this.orden, nombreReceta: this.RecetaSlug});
             }
         }
 
-    }*/
+    }
 </script>
 
 <style>
@@ -85,15 +77,7 @@
 .mensaje1
 {
     color: white;
-    fontWeight: bold;
     fontSize: 20;
-    textAlign: center;
-}
-.mensaje2
-{
-    color: white;
-    fontWeight: bold;
-    fontSize: 30;
     textAlign: center;
 }
 .boton

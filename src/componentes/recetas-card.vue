@@ -4,7 +4,7 @@
         <nb-content padder>
             <nb-card class="margen" v-for="receta in rece">
                 <nb-card-item header class="cabeza">
-                    <nb-text>{{receta.nombre}}</nb-text>
+                    <nb-text>-- {{receta.nombre}} --</nb-text>
                 </nb-card-item>
 
                 <nb-card-item cardBody button :onPress="handleBodyClick">

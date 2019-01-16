@@ -12,6 +12,12 @@
     import Modalidades from "./componentes/preguntas";
     import resultadoCorrectoPregunta from "./componentes/resultado-correcto-pregunta";
     import resultadoIncorrectoPregunta from "./componentes/resultado-incorrecto-pregunta";
+    import detalleRecetas from "./componentes/detalle-receta";
+    import  pasos from "./componentes/Pasos";
+    import  carreraChef from "./componentes/CarreraChef";
+    import  retoUno from "./componentes/retoUno";
+    import  retoDos from "./componentes/retoDos";
+    import seleccion from "./componentes/seleccionar-Carrera";
 
     const AppNavigation = StackNavigator(
         {
@@ -19,6 +25,12 @@
             Juegos: Modalidades,
             ResultadoCorrecto: resultadoCorrectoPregunta,
             ResultadoIncorrecto: resultadoIncorrectoPregunta,
+            DetalleRecetas: detalleRecetas,
+            Pasos: pasos,
+            CarreraChef:carreraChef,
+            RetoUno: retoUno,
+            RetoDos: retoDos,
+            seleccionReceta: seleccion
 
 
         },
